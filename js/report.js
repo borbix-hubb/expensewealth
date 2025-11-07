@@ -1,5 +1,5 @@
 // ==================== Configuration ====================
-const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRHe-yh5uMlTrxwjdc53RfeJ_8z7RiQnepXrx1ceEH0psGD_nOzvP36gZXVw0PDCbU/exec';
 
 // ==================== Global Variables ====================
 let allTransactions = [];

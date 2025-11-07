@@ -17,6 +17,7 @@ const CATEGORIES = {
         'อื่นๆ'
     ],
     income: [
+        'เงินตั้งต้น',
         'เงินเดือน',
         'โบนัส',
         'ขายของ',
@@ -116,6 +117,16 @@ function updateCategoryOptions(type) {
 async function handleFormSubmit(e) {
     e.preventDefault();
 
+    // Get submit button
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+
+    // Disable submit button to prevent double submission
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.6';
+        submitBtn.style.cursor = 'not-allowed';
+    }
+
     const formData = {
         type: document.getElementById('type').value,
         amount: parseFloat(document.getElementById('amount').value),
@@ -128,6 +139,12 @@ async function handleFormSubmit(e) {
     // Check if SCRIPT_URL is configured
     if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
         showToast('⚠️ กรุณาตั้งค่า Google Apps Script URL ในไฟล์ app.js', 'error');
+        // Re-enable button
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+        }
         return;
     }
 
@@ -151,11 +168,12 @@ async function handleFormSubmit(e) {
             showToast('บันทึกข้อมูลสำเร็จ', 'success');
             document.getElementById('transactionForm').reset();
             setDefaultDate();
+            hideLoading();
 
             // Reload transactions after a short delay
             setTimeout(() => {
                 loadTransactions();
-            }, 1000);
+            }, 500);
         } else {
             throw new Error(result.message || 'บันทึกข้อมูลไม่สำเร็จ');
         }
@@ -164,6 +182,13 @@ async function handleFormSubmit(e) {
         console.error('Error:', error);
         showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
         hideLoading();
+    } finally {
+        // Re-enable button
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+        }
     }
 }
 
