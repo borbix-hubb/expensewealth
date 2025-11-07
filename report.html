@@ -20,6 +20,9 @@
             </div>
             <h1>รายงานรายรับรายจ่าย</h1>
             <div class="nav-right">
+                <button class="report-btn" onclick="openGoogleSheet()" title="เปิด Google Sheet">
+                    📗 Database
+                </button>
                 <button class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนธีม">
                     <span id="themeIcon">☀️</span>
                 </button>
@@ -88,6 +91,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
+    <script src="js/config.js"></script>
     <script src="js/report.js"></script>
 </body>
 </html>

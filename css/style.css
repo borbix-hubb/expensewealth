@@ -66,7 +66,7 @@ body {
 
 /* ==================== Container ==================== */
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -74,8 +74,8 @@ body {
 .header {
     background: var(--bg-secondary);
     border-radius: var(--radius-xl);
-    padding: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
     box-shadow: var(--shadow-xl);
 }
 
@@ -94,7 +94,7 @@ body {
 }
 
 .balance-card {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
     border-radius: var(--radius-lg);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -128,21 +128,21 @@ body {
 }
 
 .balance-amount {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
 /* ==================== Main Content ==================== */
 .main-content {
     display: grid;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-lg);
 }
 
 /* ==================== Transaction Form ==================== */
 .transaction-form {
     background: var(--bg-secondary);
     border-radius: var(--radius-xl);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     box-shadow: var(--shadow-xl);
 }
 
@@ -315,9 +315,9 @@ body {
     gap: var(--spacing-md);
     align-items: end;
     background: var(--bg-secondary);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .filter-group {
@@ -352,8 +352,8 @@ body {
 .transaction-list {
     background: var(--bg-secondary);
     border-radius: var(--radius-xl);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .list-header {
