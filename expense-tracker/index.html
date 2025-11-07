@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกรายรับรายจ่าย</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <!-- Placeholder for alignment -->
+            </div>
+            <h1>รายงานรายรับรายจ่าย</h1>
+            <div class="nav-right">
+                <button class="report-btn" onclick="window.location.href='report.html'" title="ดูรายงาน">
+                    📊 รายงาน
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนธีม">
+                    <span id="themeIcon">☀️</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="balance-summary">
+                <div class="balance-card income">
+                    <div class="balance-label">รายรับ</div>
+                    <div class="balance-amount" id="totalIncome">฿0.00</div>
+                </div>
+                <div class="balance-card expense">
+                    <div class="balance-label">รายจ่าย</div>
+                    <div class="balance-amount" id="totalExpense">฿0.00</div>
+                </div>
+                <div class="balance-card net">
+                    <div class="balance-label">คงเหลือ</div>
+                    <div class="balance-amount" id="netBalance">฿0.00</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Transaction Form -->
+            <section class="transaction-form">
+                <h2>เพิ่มรายการ</h2>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="type">ประเภท</label>
+                        <div class="type-selector">
+                            <button type="button" class="type-btn active" data-type="expense">
+                                <span class="icon">📤</span>
+                                <span>รายจ่าย</span>
+                            </button>
+                            <button type="button" class="type-btn" data-type="income">
+                                <span class="icon">📥</span>
+                                <span>รายรับ</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="type" name="type" value="expense">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">จำนวนเงิน (฿)</label>
+                            <input type="number" id="amount" name="amount" step="0.01" required placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">วันที่</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">หมวดหมู่</label>
+                        <select id="category" name="category" required>
+                            <option value="">เลือกหมวดหมู่</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">รายละเอียด</label>
+                        <input type="text" id="description" name="description" placeholder="ระบุรายละเอียด (ถ้ามี)">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">✓</span>
+                            บันทึก
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <span class="btn-icon">↺</span>
+                            ล้างข้อมูล
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Filters -->
+            <section class="filters">
+                <div class="filter-group">
+                    <label for="filterMonth">กรองตามเดือน</label>
+                    <input type="month" id="filterMonth" name="filterMonth">
+                </div>
+                <div class="filter-group">
+                    <label for="filterType">กรองตามประเภท</label>
+                    <select id="filterType" name="filterType">
+                        <option value="all">ทั้งหมด</option>
+                        <option value="income">รายรับ</option>
+                        <option value="expense">รายจ่าย</option>
+                    </select>
+                </div>
+                <button class="btn btn-filter" onclick="filterTransactions()">
+                    <span class="btn-icon">🔍</span>
+                    กรอง
+                </button>
+                <button class="btn btn-reset" onclick="resetFilters()">
+                    <span class="btn-icon">↺</span>
+                    รีเซ็ต
+                </button>
+            </section>
+
+            <!-- Transaction List -->
+            <section class="transaction-list">
+                <div class="list-header">
+                    <h2>ประวัติรายการ</h2>
+                    <button class="btn btn-refresh" onclick="loadTransactions()">
+                        <span class="btn-icon">↻</span>
+                        รีเฟรช
+                    </button>
+                </div>
+                <div id="transactionContainer" class="transaction-container">
+                    <div class="loading" id="loading">กำลังโหลดข้อมูล...</div>
+                    <div class="no-data" id="noData" style="display: none;">ยังไม่มีรายการ</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

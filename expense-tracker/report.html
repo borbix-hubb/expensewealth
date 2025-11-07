@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานรายรับรายจ่าย</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <button class="back-btn" onclick="window.location.href='index.html'" title="กลับ">
+                    ←
+                </button>
+            </div>
+            <h1>รายงานรายรับรายจ่าย</h1>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนธีม">
+                    <span id="themeIcon">☀️</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Report Header -->
+        <section class="report-header">
+            <!-- Month Selector -->
+            <div class="month-selector">
+                <label for="reportMonth">ทั้งหมด</label>
+                <select id="reportMonth" onchange="filterReport()">
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="report-summary">
+                <div class="balance-card income">
+                    <div class="balance-label">รายรับทั้งหมด</div>
+                    <div class="balance-amount" id="reportIncome">฿0.00</div>
+                </div>
+                <div class="balance-card expense">
+                    <div class="balance-label">รายจ่ายทั้งหมด</div>
+                    <div class="balance-amount" id="reportExpense">฿0.00</div>
+                </div>
+                <div class="balance-card net">
+                    <div class="balance-label">ยอดคงเหลือสุทธิ</div>
+                    <div class="balance-amount" id="reportNet">฿0.00</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Report Table -->
+        <section class="report-table-container">
+            <div class="list-header">
+                <h2>รายละเอียดรายการแบบตาราง</h2>
+                <button class="export-btn" onclick="exportReport()">
+                    <span>📄</span>
+                    Export
+                </button>
+            </div>
+
+            <div id="reportTableWrapper">
+                <table class="report-table" id="reportTable">
+                    <thead>
+                        <tr>
+                            <th>วันที่</th>
+                            <th>รายการ</th>
+                            <th>จำนวนเงิน</th>
+                            <th>รายการ</th>
+                            <th>จำนวนเงิน</th>
+                            <th>คงเหลือ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">กำลังโหลดข้อมูล...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/report.js"></script>
+</body>
+</html>

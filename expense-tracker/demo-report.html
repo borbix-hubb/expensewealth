@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานรายรับรายจ่าย - Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .demo-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎨 โหมดทดสอบ (Demo) - ข้อมูลจะไม่ถูกบันทึก | ใช้สำหรับดู UI เท่านั้น
+    </div>
+
+    <div class="container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <button class="back-btn" onclick="window.location.href='demo.html'" title="กลับ">
+                    ←
+                </button>
+            </div>
+            <h1>รายงานรายรับรายจ่าย (Demo)</h1>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนธีม">
+                    <span id="themeIcon">☀️</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Report Header -->
+        <section class="report-header">
+            <!-- Month Selector -->
+            <div class="month-selector">
+                <label for="reportMonth">ทั้งหมด</label>
+                <select id="reportMonth">
+                    <option value="" selected>ทั้งหมด</option>
+                    <option value="2025-01">มกราคม 2568</option>
+                    <option value="2024-12">ธันวาคม 2567</option>
+                    <option value="2024-11">พฤศจิกายน 2567</option>
+                </select>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="report-summary">
+                <div class="balance-card income">
+                    <div class="balance-label">รายรับทั้งหมด</div>
+                    <div class="balance-amount">฿90,000 บาท</div>
+                </div>
+                <div class="balance-card expense">
+                    <div class="balance-label">รายจ่ายทั้งหมด</div>
+                    <div class="balance-amount">฿143,012.1 บาท</div>
+                </div>
+                <div class="balance-card net expense">
+                    <div class="balance-label">ยอดคงเหลือสุทธิ</div>
+                    <div class="balance-amount">-฿53,012.1 บาท</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Report Table -->
+        <section class="report-table-container">
+            <div class="list-header">
+                <h2>รายละเอียดรายการแบบตาราง</h2>
+                <button class="export-btn" onclick="showDemoToast()">
+                    <span>📄</span>
+                    Export
+                </button>
+            </div>
+
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>รายการ</th>
+                        <th>จำนวนเงิน</th>
+                        <th>รายการ</th>
+                        <th>จำนวนเงิน</th>
+                        <th>คงเหลือ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="1">1 พ.ค. 2568</td>
+                        <td>เงินเดิ้นงื่น</td>
+                        <td class="income-cell">+30,000 บาท</td>
+                        <td></td>
+                        <td></td>
+                        <td class="balance-cell positive">30,000 บาท</td>
+                    </tr>
+
+                    <!-- 8 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="12">8 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>ท่อ 1 เบดส เบดสละ 26~</td>
+                        <td class="expense-cell">-26 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ท่อ 1 เบดส เบดสละ 28~</td>
+                        <td class="expense-cell">-28 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ของ 1x 1 ชิ้น อินละ 11~</td>
+                        <td class="expense-cell">-11 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>เกมีชื่น 2 ชิ้น อินละ 18~</td>
+                        <td class="expense-cell">-36 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ตรงตอนก 1 ชิ้น อินละ 8~</td>
+                        <td class="expense-cell">-8 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>งอ 90 3 ชิ้น อินละ 8~</td>
+                        <td class="expense-cell">-24 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ตรง 2 ชิ้น อินละ 7~</td>
+                        <td class="expense-cell">-14 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>งอ 45 2 ชิ้น อินละ 16~</td>
+                        <td class="expense-cell">-32 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>งอ 90 3 ชิ้น อินละ 15~</td>
+                        <td class="expense-cell">-45 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ตรง 2 ชิ้น อินละ 12~</td>
+                        <td class="expense-cell">-24 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>งอ 2 ชิ้น อินละ 15~</td>
+                        <td class="expense-cell">-30 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>งอ 2 ชิ้น อินละ 8~</td>
+                        <td class="expense-cell">-16 บาท</td>
+                        <td class="balance-cell negative">-316 บาท</td>
+                    </tr>
+
+                    <!-- 9 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="3">9 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>สลดจม 2 ชิ้น อินละ 11~</td>
+                        <td class="expense-cell">-22 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ฝางปล่า 6 หนู 1 ชิ้น อินละ 175~</td>
+                        <td class="expense-cell">-175 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>เทปพันเสียว 1 ชิ้น อินละ 45~</td>
+                        <td class="expense-cell">-45 บาท</td>
+                        <td class="balance-cell negative">-745 บาท</td>
+                    </tr>
+
+                    <!-- 10 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="1">10 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>ค่าอาหาร</td>
+                        <td class="expense-cell">-150 บาท</td>
+                        <td class="balance-cell negative">-895 บาท</td>
+                    </tr>
+
+                    <!-- 15 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="2">15 พ.ค. 2568</td>
+                        <td>ขายของออนไลน์</td>
+                        <td class="income-cell">+60,000 บาท</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ค่าน้ำมันรถ</td>
+                        <td class="expense-cell">-1,500 บาท</td>
+                        <td class="balance-cell positive">57,605 บาท</td>
+                    </tr>
+
+                    <!-- 20 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="1">20 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>ช้อปปิ้ง</td>
+                        <td class="expense-cell">-2,800 บาท</td>
+                        <td class="balance-cell positive">54,805 บาท</td>
+                    </tr>
+
+                    <!-- 25 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="2">25 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>ค่าไฟฟ้า</td>
+                        <td class="expense-cell">-3,500 บาท</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>ค่าโทรศัพท์</td>
+                        <td class="expense-cell">-899 บาท</td>
+                        <td class="balance-cell positive">50,406 บาท</td>
+                    </tr>
+
+                    <!-- 28 พ.ค. 2568 -->
+                    <tr>
+                        <td class="date-cell" rowspan="1">28 พ.ค. 2568</td>
+                        <td></td>
+                        <td></td>
+                        <td>ดูหนัง</td>
+                        <td class="expense-cell">-600 บาท</td>
+                        <td class="balance-cell positive">49,806 บาท</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+        });
+
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.textContent = theme === 'light' ? '☀️' : '🌙';
+            }
+        }
+
+        function showDemoToast() {
+            showToast('🎨 นี่คือโหมดทดสอบ - กรุณาติดตั้ง Google Apps Script เพื่อใช้งานจริง', 'error');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

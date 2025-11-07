@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกรายรับรายจ่าย - Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .demo-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎨 โหมดทดสอบ (Demo) - ข้อมูลจะไม่ถูกบันทึก | ใช้สำหรับดู UI เท่านั้น
+    </div>
+
+    <div class="container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <!-- Placeholder for alignment -->
+            </div>
+            <h1>รายงานรายรับรายจ่าย (Demo)</h1>
+            <div class="nav-right">
+                <button class="report-btn" onclick="window.location.href='demo-report.html'" title="ดูรายงาน">
+                    📊 รายงาน
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนธีม">
+                    <span id="themeIcon">☀️</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="balance-summary">
+                <div class="balance-card income">
+                    <div class="balance-label">รายรับ</div>
+                    <div class="balance-amount" id="totalIncome">฿45,000.00</div>
+                </div>
+                <div class="balance-card expense">
+                    <div class="balance-label">รายจ่าย</div>
+                    <div class="balance-amount" id="totalExpense">฿32,450.00</div>
+                </div>
+                <div class="balance-card net">
+                    <div class="balance-label">คงเหลือ</div>
+                    <div class="balance-amount" id="netBalance">฿12,550.00</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Transaction Form -->
+            <section class="transaction-form">
+                <h2>เพิ่มรายการ</h2>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="type">ประเภท</label>
+                        <div class="type-selector">
+                            <button type="button" class="type-btn active" data-type="expense">
+                                <span class="icon">📤</span>
+                                <span>รายจ่าย</span>
+                            </button>
+                            <button type="button" class="type-btn" data-type="income">
+                                <span class="icon">📥</span>
+                                <span>รายรับ</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="type" name="type" value="expense">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">จำนวนเงิน (฿)</label>
+                            <input type="number" id="amount" name="amount" step="0.01" required placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">วันที่</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">หมวดหมู่</label>
+                        <select id="category" name="category" required>
+                            <option value="">เลือกหมวดหมู่</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">รายละเอียด</label>
+                        <input type="text" id="description" name="description" placeholder="ระบุรายละเอียด (ถ้ามี)">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">✓</span>
+                            บันทึก
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <span class="btn-icon">↺</span>
+                            ล้างข้อมูล
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Filters -->
+            <section class="filters">
+                <div class="filter-group">
+                    <label for="filterMonth">กรองตามเดือน</label>
+                    <input type="month" id="filterMonth" name="filterMonth">
+                </div>
+                <div class="filter-group">
+                    <label for="filterType">กรองตามประเภท</label>
+                    <select id="filterType" name="filterType">
+                        <option value="all">ทั้งหมด</option>
+                        <option value="income">รายรับ</option>
+                        <option value="expense">รายจ่าย</option>
+                    </select>
+                </div>
+                <button class="btn btn-filter" onclick="showDemoToast()">
+                    <span class="btn-icon">🔍</span>
+                    กรอง
+                </button>
+                <button class="btn btn-reset" onclick="showDemoToast()">
+                    <span class="btn-icon">↺</span>
+                    รีเซ็ต
+                </button>
+            </section>
+
+            <!-- Transaction List -->
+            <section class="transaction-list">
+                <div class="list-header">
+                    <h2>ประวัติรายการ (ตัวอย่าง)</h2>
+                    <button class="btn btn-refresh" onclick="showDemoToast()">
+                        <span class="btn-icon">↻</span>
+                        รีเฟรช
+                    </button>
+                </div>
+                <div id="transactionContainer" class="transaction-container">
+                    <!-- Sample Income -->
+                    <div class="transaction-item income">
+                        <div class="transaction-icon">📥</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">เงินเดือน</div>
+                            <div class="transaction-description">เงินเดือนประจำเดือน</div>
+                        </div>
+                        <div class="transaction-date">1 ม.ค. 2568</div>
+                        <div class="transaction-amount">+฿35,000.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Income 2 -->
+                    <div class="transaction-item income">
+                        <div class="transaction-icon">📥</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">ขายของ</div>
+                            <div class="transaction-description">ขายของออนไลน์</div>
+                        </div>
+                        <div class="transaction-date">3 ม.ค. 2568</div>
+                        <div class="transaction-amount">+฿10,000.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 1 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">อาหาร/เครื่องดื่ม</div>
+                            <div class="transaction-description">อาหารเที่ยง</div>
+                        </div>
+                        <div class="transaction-date">5 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿150.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 2 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">ค่าเดินทาง</div>
+                            <div class="transaction-description">ค่าน้ำมันรถ</div>
+                        </div>
+                        <div class="transaction-date">7 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿1,500.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 3 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">ช้อปปิ้ง</div>
+                            <div class="transaction-description">เสื้อผ้า</div>
+                        </div>
+                        <div class="transaction-date">10 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿2,800.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 4 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">ค่าน้ำค่าไฟ</div>
+                            <div class="transaction-description">ค่าไฟฟ้าประจำเดือน</div>
+                        </div>
+                        <div class="transaction-date">15 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿3,500.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 5 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">ค่าโทรศัพท์/อินเทอร์เน็ต</div>
+                            <div class="transaction-description">ค่าโทรศัพท์และเน็ต</div>
+                        </div>
+                        <div class="transaction-date">20 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿899.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- Sample Expense 6 -->
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">📤</div>
+                        <div class="transaction-details">
+                            <div class="transaction-category">บันเทิง</div>
+                            <div class="transaction-description">ดูหนังกับเพื่อน</div>
+                        </div>
+                        <div class="transaction-date">25 ม.ค. 2568</div>
+                        <div class="transaction-amount">-฿600.00</div>
+                        <button class="transaction-delete" onclick="showDemoToast()" title="ลบรายการ">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Demo version - Local storage only
+        const CATEGORIES = {
+            expense: [
+                'อาหาร/เครื่องดื่ม',
+                'ค่าเดินทาง',
+                'ค่าที่พัก',
+                'ช้อปปิ้ง',
+                'บันเทิง',
+                'สุขภาพ',
+                'การศึกษา',
+                'ค่าน้ำค่าไฟ',
+                'ค่าโทรศัพท์/อินเทอร์เน็ต',
+                'อื่นๆ'
+            ],
+            income: [
+                'เงินเดือน',
+                'โบนัส',
+                'ขายของ',
+                'ดอกเบี้ย',
+                'เงินลงทุน',
+                'อื่นๆ'
+            ]
+        };
+
+        let currentType = 'expense';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeForm();
+            setupEventListeners();
+            setDefaultDate();
+        });
+
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.textContent = theme === 'light' ? '☀️' : '🌙';
+            }
+        }
+
+        function initializeForm() {
+            updateCategoryOptions(currentType);
+        }
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        }
+
+        function setupEventListeners() {
+            const typeButtons = document.querySelectorAll('.type-btn');
+            typeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    typeButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentType = this.dataset.type;
+                    document.getElementById('type').value = currentType;
+                    updateCategoryOptions(currentType);
+                });
+            });
+
+            document.getElementById('transactionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showDemoToast();
+            });
+
+            document.getElementById('transactionForm').addEventListener('reset', function() {
+                setTimeout(() => {
+                    setDefaultDate();
+                    updateCategoryOptions(currentType);
+                }, 0);
+            });
+        }
+
+        function updateCategoryOptions(type) {
+            const categorySelect = document.getElementById('category');
+            categorySelect.innerHTML = '<option value="">เลือกหมวดหมู่</option>';
+
+            CATEGORIES[type].forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        function showDemoToast() {
+            showToast('🎨 นี่คือโหมดทดสอบ - กรุณาติดตั้ง Google Apps Script เพื่อใช้งานจริง', 'error');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
