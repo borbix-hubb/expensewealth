@@ -168,13 +168,11 @@ async function handleFormSubmit(e) {
             showToast('บันทึกข้อมูลสำเร็จ', 'success');
             document.getElementById('transactionForm').reset();
             setDefaultDate();
-            hideLoading();
 
-            // Reload transactions after a short delay
-            setTimeout(() => {
-                loadTransactions();
-            }, 500);
+            // Reload immediately without delay
+            loadTransactions();
         } else {
+            hideLoading();
             throw new Error(result.message || 'บันทึกข้อมูลไม่สำเร็จ');
         }
 
@@ -316,6 +314,8 @@ async function deleteTransaction(id) {
     }
 
     try {
+        showLoading('กำลังลบข้อมูล...');
+
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             headers: {
@@ -332,16 +332,16 @@ async function deleteTransaction(id) {
         if (result.success) {
             showToast('ลบรายการสำเร็จ', 'success');
 
-            // Reload transactions
-            setTimeout(() => {
-                loadTransactions();
-            }, 1000);
+            // Reload immediately without delay
+            loadTransactions();
         } else {
+            hideLoading();
             throw new Error(result.message || 'ลบรายการไม่สำเร็จ');
         }
 
     } catch (error) {
         console.error('Error:', error);
+        hideLoading();
         showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
     }
 }
