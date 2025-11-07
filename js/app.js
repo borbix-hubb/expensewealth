@@ -130,9 +130,8 @@ async function handleFormSubmit(e) {
 
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/plain',
             },
             body: JSON.stringify({
                 action: 'addTransaction',
@@ -140,21 +139,25 @@ async function handleFormSubmit(e) {
             })
         });
 
-        // Note: no-cors mode doesn't allow reading response
-        // We'll assume success if no error is thrown
+        const result = await response.json();
 
-        showToast('บันทึกข้อมูลสำเร็จ', 'success');
-        document.getElementById('transactionForm').reset();
-        setDefaultDate();
+        if (result.success) {
+            showToast('บันทึกข้อมูลสำเร็จ', 'success');
+            document.getElementById('transactionForm').reset();
+            setDefaultDate();
 
-        // Reload transactions after a short delay
-        setTimeout(() => {
-            loadTransactions();
-        }, 1000);
+            // Reload transactions after a short delay
+            setTimeout(() => {
+                loadTransactions();
+            }, 1000);
+        } else {
+            throw new Error(result.message || 'บันทึกข้อมูลไม่สำเร็จ');
+        }
 
     } catch (error) {
         console.error('Error:', error);
-        showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
+        showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
+        hideLoading();
     }
 }
 
@@ -284,9 +287,8 @@ async function deleteTransaction(id) {
     try {
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/plain',
             },
             body: JSON.stringify({
                 action: 'deleteTransaction',
@@ -294,16 +296,22 @@ async function deleteTransaction(id) {
             })
         });
 
-        showToast('ลบรายการสำเร็จ', 'success');
+        const result = await response.json();
 
-        // Reload transactions
-        setTimeout(() => {
-            loadTransactions();
-        }, 1000);
+        if (result.success) {
+            showToast('ลบรายการสำเร็จ', 'success');
+
+            // Reload transactions
+            setTimeout(() => {
+                loadTransactions();
+            }, 1000);
+        } else {
+            throw new Error(result.message || 'ลบรายการไม่สำเร็จ');
+        }
 
     } catch (error) {
         console.error('Error:', error);
-        showToast('เกิดข้อผิดพลาดในการลบรายการ', 'error');
+        showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
     }
 }
 
@@ -331,6 +339,11 @@ function showLoading(message) {
     loading.textContent = message;
     loading.style.display = 'block';
     document.getElementById('noData').style.display = 'none';
+}
+
+function hideLoading() {
+    const loading = document.getElementById('loading');
+    loading.style.display = 'none';
 }
 
 function showToast(message, type = 'success') {

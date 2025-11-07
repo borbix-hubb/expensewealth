@@ -9,7 +9,7 @@ const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1iF9q5CyLjPD1yL
 
 // ==================== Function ====================
 function openGoogleSheet() {
-    if (GOOGLE_SHEET_URL === 'https://docs.google.com/spreadsheets/d/1iF9q5CyLjPD1yLP4rYnboBKIyPoYhYnFbIkMIT6Oe6w/edit?gid=0#gid=0') {
+    if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_SHEET_URL_HERE' || !GOOGLE_SHEET_URL) {
         alert('⚠️ กรุณาตั้งค่า Google Sheet URL ในไฟล์ js/config.js');
         return;
     }
