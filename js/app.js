@@ -125,6 +125,12 @@ async function handleFormSubmit(e) {
         timestamp: new Date().toISOString()
     };
 
+    // Check if SCRIPT_URL is configured
+    if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+        showToast('⚠️ กรุณาตั้งค่า Google Apps Script URL ในไฟล์ app.js', 'error');
+        return;
+    }
+
     try {
         showLoading('กำลังบันทึกข้อมูล...');
 
@@ -336,18 +342,28 @@ function formatDate(dateString) {
 
 function showLoading(message) {
     const loading = document.getElementById('loading');
-    loading.textContent = message;
-    loading.style.display = 'block';
-    document.getElementById('noData').style.display = 'none';
+    const noData = document.getElementById('noData');
+
+    if (loading) {
+        loading.textContent = message;
+        loading.style.display = 'block';
+    }
+    if (noData) {
+        noData.style.display = 'none';
+    }
 }
 
 function hideLoading() {
     const loading = document.getElementById('loading');
-    loading.style.display = 'none';
+    if (loading) {
+        loading.style.display = 'none';
+    }
 }
 
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
+    if (!toast) return;
+
     toast.textContent = message;
     toast.className = `toast ${type} show`;
 
