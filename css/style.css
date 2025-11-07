@@ -224,6 +224,20 @@ body {
     color: white;
 }
 
+/* Expense button - Red color when active */
+.type-btn[data-type="expense"].active {
+    border-color: var(--danger-color);
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Income button - Green color when active */
+.type-btn[data-type="income"].active {
+    border-color: var(--success-color);
+    background: var(--success-color);
+    color: white;
+}
+
 .type-btn .icon {
     font-size: 1.25rem;
 }
@@ -379,10 +393,10 @@ body {
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
     border: 2px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     transition: all 0.2s ease;
 }
 
@@ -403,9 +417,9 @@ body {
 }
 
 .transaction-icon {
-    font-size: 2rem;
-    width: 50px;
-    height: 50px;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -427,23 +441,23 @@ body {
 .transaction-category {
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 0.25rem;
 }
 
 .transaction-description {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .transaction-date {
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     text-align: right;
 }
 
 .transaction-amount {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
 }
 
